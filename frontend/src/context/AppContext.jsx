@@ -18,7 +18,7 @@ export const AppContextProvider = (props) => {
  const getUserData = async () => {
   try {
     const { data } = await axios.get(backendUrl + '/api/user/data', {
-      credentials: true
+      withCredentials: true // যদি cookie-based token হয় : true
     });
     console.log("Received user data:", data);
 
