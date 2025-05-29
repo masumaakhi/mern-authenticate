@@ -53,7 +53,7 @@ const fetchAllUsers = async () => {
 
 useEffect(() => {
   getUserData();  // auto login if cookie/session valid
-}, []);
+}, [userData, allUsers]);
 
     const value = {
         backendUrl,

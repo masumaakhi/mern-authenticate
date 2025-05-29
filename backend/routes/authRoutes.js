@@ -40,8 +40,8 @@ authRouter.get('/google/callback',
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     });
 
     res.redirect(`${process.env.CLIENT_URL}?token=${token}`);

@@ -38,7 +38,7 @@ const Signup = () => {
 
   
   
-        const handleGoogleLogin = () => {
+        const handleGoogleSignin = () => {
         try {
              setIsLoading(true);
              const googleLoginUrl = `${backendUrl}/api/auth/google`;
@@ -77,7 +77,7 @@ const Signup = () => {
         <form onSubmit={onSubmitHandler}>
             <button
             type="submit"
-              onClick={handleGoogleLogin}
+              onClick={handleGoogleSignin}
             className="w-full py-2.5 mb-4  flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-indigo-900 text-white font-medium"
           >
             <svg
