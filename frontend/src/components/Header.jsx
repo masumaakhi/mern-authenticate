@@ -1,10 +1,19 @@
-import React from 'react'
+import React , {useEffect, useState} from 'react'
 import { assets } from '../assets/assets'
 import { useContext } from 'react'
 import { AppContext } from '../context/AppContext'
 
 const Header = () => {
   const { userData } = useContext(AppContext);
+  const [user, setUser] = useState(userData);
+   useEffect(() => {
+    if (!userData) {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, [userData]);
   return ( 
     <div className='flex flex-col items-center mt-20 px-4 text-center'> 
         <img src={assets.header_img} alt="header" className='w-36 h-36 rounded-full mb-4'/>
