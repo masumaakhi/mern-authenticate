@@ -1,37 +1,41 @@
 import { useEffect, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 
 const GoogleSuccess = () => {
   const { backendUrl, setIsLoggedIn, setUserData } = useContext(AppContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${backendUrl}/api/auth/google/success`, {
+        const urlParams = new URLSearchParams(location.search);
+        const token = urlParams.get("token");
+
+        const res = await axios.get(`${backendUrl}/api/auth/google/success?token=${token}`, {
           withCredentials: true,
         });
 
         if (res.data.success) {
-          setUserData(res.data.user);          // set context
-          setIsLoggedIn(true); 
-                          // update login state
+          setUserData(res.data.user);
+          setIsLoggedIn(true);
           localStorage.setItem('user', JSON.stringify(res.data.user));
-          toast.success(" Google Login successful");
-          // ✅ Force full reload to ensure context consumers (Navbar, Header) get updated data
-          window.location.href = '/';
+          toast.success("Google Login successful");
+          navigate('/'); // React-style navigation
         } else {
-          console.error('Google login failed');
+          toast.error("Google login failed");
         }
       } catch (error) {
         console.error('Google login error:', error);
+        toast.error("Login error");
       }
     };
 
     fetchUser();
-  }, [backendUrl, setUserData, setIsLoggedIn]);
+  }, [backendUrl, setUserData, setIsLoggedIn, location.search, navigate]);
 
   return <div>Logging in with Google...</div>;
 };

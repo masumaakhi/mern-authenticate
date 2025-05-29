@@ -24,11 +24,14 @@ export const AppContextProvider = (props) => {
 
     if (data.success) {
       setUserData(data.userData);
+      setIsLoggedIn(true);
       if (data.userData.role === "admin") {
         fetchAllUsers();
       }
     } else {
       toast.error(data.message);
+      setIsLoggedIn(false);
+      setUserData(null);
     }
   } catch (error) {
     toast.error(error.message);
